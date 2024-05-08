@@ -4,23 +4,11 @@ from rest_framework.views import APIView
 from .models import PurchaseOrder
 from vendor.models import Vendor
 from .serializers import PurchaseOrderSerializer
+from django.utils.dateparse import parse_date
 
 from django.http import Http404
 
 class PurchaseOrderListCreateAPIView(APIView):
-    # def get(self, request):
-    #     vendor_id = request.query_params.get('vendor_id')  # Extract vendor_id from query parameters
-    #     if vendor_id:
-    #         try:
-    #             vendor = Vendor.objects.get(pk=vendor_id)
-    #             purchase_orders = PurchaseOrder.objects.filter(vendor=vendor)
-    #         except Vendor.DoesNotExist:
-    #             raise Http404("Vendor does not exist")
-    #     else:
-    #         purchase_orders = PurchaseOrder.objects.all()
-
-    #     serializer = PurchaseOrderSerializer(purchase_orders, many=True)
-    #     return Response(serializer.data)
     def get(self, request):
         vendor_id = request.query_params.get('vendor_id')  # Extract vendor_id from query parameters
         if vendor_id:
@@ -48,6 +36,19 @@ class PurchaseOrderListCreateAPIView(APIView):
             serializer.save()
             return Response({"message": "Purchase order has been placed successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def get(self, request):
+    #     vendor_id = request.query_params.get('vendor_id')  # Extract vendor_id from query parameters
+    #     if vendor_id:
+    #         try:
+    #             vendor = Vendor.objects.get(pk=vendor_id)
+    #             purchase_orders = PurchaseOrder.objects.filter(vendor=vendor)
+    #         except Vendor.DoesNotExist:
+    #             raise Http404("Vendor does not exist")
+    #     else:
+    #         purchase_orders = PurchaseOrder.objects.all()
+
+    #     serializer = PurchaseOrderSerializer(purchase_orders, many=True)
+    #     return Response(serializer.data)
 
 
 class PurchaseOrderRetrieveUpdateDestroyAPIView(APIView):

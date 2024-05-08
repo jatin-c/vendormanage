@@ -7,6 +7,8 @@ from .views import (
     VendorDeleteAPIView,
     VendorPerformance,
     VendorPerformanceHistory,
+    HistoricalPerformanceListAPIView
+,
 )
 
 urlpatterns = [
@@ -17,6 +19,8 @@ urlpatterns = [
     path('<int:vendor_id>/delete', VendorDeleteAPIView.as_view(), name='vendor-delete'),
     path('<int:vendor_id>/performance', VendorPerformance.as_view(), name='vendor_performance'),
     path('<int:vendor_id>/performancehistory', VendorPerformanceHistory.as_view(), name='vendor_performance_history'),
+    path('historicalperformance/listall/', HistoricalPerformanceListAPIView.as_view(), name='historical_performance_list'),
+
 ]
 
 

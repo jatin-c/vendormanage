@@ -84,3 +84,9 @@ class VendorPerformanceHistory(APIView):
         serializer = HistoricalPerformanceSerializer(performance_history, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class HistoricalPerformanceListAPIView(APIView):
+    def get(self, request, format=None):
+        historical_performance_entries = HistoricalPerformance.objects.all()
+        serializer = HistoricalPerformanceSerializer(historical_performance_entries, many=True)
+        return Response(serializer.data)
