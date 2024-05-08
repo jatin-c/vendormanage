@@ -23,19 +23,6 @@ def update_vendor_metrics(sender, instance, created, **kwargs):
                 vendor.on_time_delivery_rate = on_time_delivery_rate
                 vendor.save()
 
-        # # Calculate fulfillment rate
-        # performance_metrics = PerformanceMetrics(instance)
-        # fulfillment_rate = performance_metrics.calculate_fulfillment_rate()
-        # try:
-        #     # Retrieve Vendor instance
-        #     vendor = Vendor.objects.get(pk=instance.vendor_id)
-        # except Vendor.DoesNotExist:
-        #     # Handle the case where the vendor does not exist
-        #     print(f"Vendor with ID {instance.vendor_id} does not exist.")
-        # else:
-        #     # Update Vendor model with the new fulfillment rate
-        #     vendor.fulfillment_rate = fulfillment_rate
-        #     vendor.save()
 
 @receiver(pre_save, sender=PurchaseOrder)
 def update_fulfillment_rate(sender, instance, **kwargs):
