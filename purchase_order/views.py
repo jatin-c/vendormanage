@@ -5,7 +5,7 @@ from .models import PurchaseOrder
 from vendor.models import Vendor
 from .serializers import PurchaseOrderSerializer
 from django.utils.dateparse import parse_date
-
+from datetime import datetime
 from django.http import Http404
 
 class PurchaseOrderListCreateAPIView(APIView):
@@ -29,13 +29,47 @@ class PurchaseOrderListCreateAPIView(APIView):
             return Response({"vendor_name": vendor_name, "purchase_orders": serializer.data})
         else:
             return Response({"purchase_orders": serializer.data})
-
+        
     def post(self, request):
+        # Parse the order date in "day/month/year" format
+        try:
+        # Parse the order date in "day/month/year" format
+            request.data['order_date'] = self.parse_date(request.data.get('order_date'))
+            request.data['issue_date'] = self.parse_date(request.data.get('issue_date'))
+            request.data['delivery_date'] = self.parse_date(request.data.get('delivery_date'))
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = PurchaseOrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Purchase order has been placed successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def parse_date(self, date_str):
+    #     try:
+    #         # Parse date in "day/month/year" format
+    #         date_obj = parse_date(date_str)
+    #         if date_obj is None:
+    #             raise ValueError("Invalid date format. Date should be in 'day/month/year' format.")
+    #         return date_obj
+    #     except ValueError as e:
+    #         raise ValueError("Invalid date format. Date should be in 'day/month/year' format.")
+
+    def parse_date(self, date_str):
+        try:
+            # Parse date in "day/month/year" format
+            date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+            return date_obj
+        except ValueError as e:
+            raise ValueError("Invalid date format. Date should be in 'day/month/year' format.")
+
+    # def post(self, request):
+    #     serializer = PurchaseOrderSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({"message": "Purchase order has been placed successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # def get(self, request):
     #     vendor_id = request.query_params.get('vendor_id')  # Extract vendor_id from query parameters
     #     if vendor_id:
@@ -65,6 +99,63 @@ class PurchaseOrderRetrieveUpdateDestroyAPIView(APIView):
             return Response({"message": "Purchase order details retrieved successfully", "data": serializer.data})
         return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    # def put(self, request, po_id):
+    #     purchase_order = self.get_object(po_id)
+    #     if purchase_order:
+    #         serializer = PurchaseOrderSerializer(purchase_order, data=request.data, partial=True)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data)
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    # def put(self, request, po_id):
+    #     purchase_order = self.get_object(po_id)
+    #     if purchase_order:
+    #         # Parse the order date using parse_date_with_custom_error
+    #         request.data['order_date'] = self.parse_date(request.data.get('order_date'))
+        
+    #         serializer = PurchaseOrderSerializer(purchase_order, data=request.data, partial=True)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data)
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
+    def put(self, request, po_id):
+        try:
+            purchase_order = self.get_object(po_id)
+            if purchase_order:
+                # Parse all date fields if present in the request data
+                for field in ['order_date', 'delivery_date', 'issue_date', 'acknowledgment_date']:
+                    if field in request.data:
+                        request.data[field] = self.parse_date(request.data.get(field))
+
+                serializer = PurchaseOrderSerializer(purchase_order, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    def parse_date(self, date_str):
+        try:
+            # Parse date in "day/month/year" format
+            date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+            return date_obj
+        except ValueError as e:
+            raise ValueError("Invalid date format. Date should be in 'day/month/year' format.")
+
+    def delete(self, request, po_id):
+        purchase_order = self.get_object(po_id)
+        if purchase_order:
+            purchase_order.delete()
+            return Response({"message": "Purchase order deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
 
     # def put(self, request, po_id):
     #     purchase_order = self.get_object(po_id)
@@ -75,42 +166,36 @@ class PurchaseOrderRetrieveUpdateDestroyAPIView(APIView):
     #             return Response(serializer.data)
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     #     return Response(status=status.HTTP_404_NOT_FOUND)
-    def put(self, request, po_id):
-        purchase_order = self.get_object(po_id)
-        if purchase_order:
-            serializer = PurchaseOrderSerializer(purchase_order, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
-    def delete(self, request, po_id):
-        purchase_order = self.get_object(po_id)
-        if purchase_order:
-            purchase_order.delete()
-            return Response({"message": "Purchase order deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
 
 class AcknowledgePurchaseOrder(APIView):
-    def post(self, request, po_id):
+    def put(self, request, po_id):
         try:
             purchase_order = PurchaseOrder.objects.get(pk=po_id)
         except PurchaseOrder.DoesNotExist:
             return Response({"error": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Check if acknowledgment_date is provided in the request data
-        acknowledgment_date = request.data.get('acknowledgment_date')
-        if acknowledgment_date is None:
-            return Response({"error": "Acknowledgment date is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Update the acknowledgment_date of the purchase order
-        purchase_order.acknowledgment_date = acknowledgment_date
+        # Update the acknowledgment_date of the purchase order to current datetime
+        purchase_order.acknowledgment_date = datetime.now()
         purchase_order.save()
 
         # Return success response
         return Response({"message": "Purchase order acknowledged successfully"}, status=status.HTTP_200_OK)
+
+# class AcknowledgePurchaseOrder(APIView):
+#     def post(self, request, po_id):
+#         try:
+#             purchase_order = PurchaseOrder.objects.get(pk=po_id)
+#         except PurchaseOrder.DoesNotExist:
+#             return Response({"error": "Purchase order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+#         # Check if acknowledgment_date is provided in the request data
+#         acknowledgment_date = request.data.get('acknowledgment_date')
+#         if acknowledgment_date is None:
+#             return Response({"error": "Acknowledgment date is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+#         # Update the acknowledgment_date of the purchase order
+#         purchase_order.acknowledgment_date = acknowledgment_date
+#         purchase_order.save()
+
+#         # Return success response
+#         return Response({"message": "Purchase order acknowledged successfully"}, status=status.HTTP_200_OK)

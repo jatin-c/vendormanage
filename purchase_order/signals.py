@@ -1,8 +1,8 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import PurchaseOrder
 from vendor.models import Vendor
-from vendor.performance import PerformanceMetrics 
+from .performance import PerformanceMetrics 
 # performance_metrics = PerformanceMetrics()
 
 @receiver(post_save, sender=PurchaseOrder)
@@ -37,19 +37,27 @@ def update_vendor_metrics(sender, instance, created, **kwargs):
         #     vendor.fulfillment_rate = fulfillment_rate
         #     vendor.save()
 
-@receiver(post_save, sender=PurchaseOrder)
-def update_fulfillment_rate(sender, instance, created, **kwargs):
-    if not created and instance.status_changed:
-        # Calculate fulfillment rate
-        performance_metrics = PerformanceMetrics(instance)
-        fulfillment_rate = performance_metrics.calculate_fulfillment_rate(instance)
-        try:
-            # Retrieve Vendor instance
-            vendor = Vendor.objects.get(pk=instance.vendor_id)
-            vendor.fulfillment_rate = fulfillment_rate
-            vendor.save()
-        except Vendor.DoesNotExist:
-            print(f"Vendor with ID {instance.vendor_id} does not exist.")
+@receiver(pre_save, sender=PurchaseOrder)
+def update_fulfillment_rate(sender, instance, **kwargs):
+    try:
+        # Retrieve the previous instance from the database
+        previous_instance = PurchaseOrder.objects.get(pk=instance.pk)
+
+        # Check if status field has changed
+        if instance.pk and instance.status != previous_instance.status:
+            # Calculate fulfillment rate
+            performance_metrics = PerformanceMetrics(instance)
+            fulfillment_rate = performance_metrics.calculate_fulfillment_rate()
+            try:
+                # Retrieve Vendor instance
+                vendor = Vendor.objects.get(pk=instance.vendor_id)
+                vendor.fulfillment_rate = fulfillment_rate
+                vendor.save()
+            except Vendor.DoesNotExist:
+                print(f"Vendor with ID {instance.vendor_id} does not exist.")
+    except PurchaseOrder.DoesNotExist:
+        # For new instances
+        pass
 
 
 @receiver(post_save, sender=PurchaseOrder)
@@ -68,10 +76,14 @@ def update_quality_rating_average(sender, instance, created, **kwargs):
             except Vendor.DoesNotExist:
                 print(f"Vendor with ID {instance.vendor_id} does not exist.")
 
-@receiver(post_save, sender=PurchaseOrder)
-def update_average_response_time(sender, instance, created, **kwargs):
-    if not created: 
-        if instance.acknowledgment_date:  # Check if acknowledgment_date is provided
+@receiver(pre_save, sender=PurchaseOrder)
+def update_average_response_time(sender, instance, **kwargs):
+    try:
+        # Retrieve the previous instance from the database
+        previous_instance = PurchaseOrder.objects.get(pk=instance.pk)
+
+        # Check if acknowledgment_date has changed
+        if instance.acknowledgment_date != previous_instance.acknowledgment_date:
             # Calculate average response time
             performance_metrics = PerformanceMetrics(instance)
             average_response_time = performance_metrics.calculate_average_response_time()
@@ -83,5 +95,7 @@ def update_average_response_time(sender, instance, created, **kwargs):
                 vendor.save()
             except Vendor.DoesNotExist:
                 print(f"Vendor with ID {instance.vendor_id} does not exist.")
-
+    except PurchaseOrder.DoesNotExist:
+        # For new instances
+        pass
 
