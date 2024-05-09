@@ -19,7 +19,11 @@
       "vendor": 123,
       "order_date": "2024-05-09T12:00:00Z",
       "delivery_date": "2024-05-16T12:00:00Z",
-      "items": ["Item1", "Item2"],
+      "items": {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },
       "quantity": 10,
       "status": "Pending",
       "quality_rating": null,
@@ -31,7 +35,11 @@
       "vendor": 123,
       "order_date": "2024-05-10T12:00:00Z",
       "delivery_date": "2024-05-17T12:00:00Z",
-      "items": ["Item3", "Item4"],
+      "items": {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },
       "quantity": 5,
       "status": "Delivered",
       "quality_rating": 4.5,
@@ -62,32 +70,39 @@
 `POST api/purchase_order/create/`
  - ```json
     {
-      "po_number": "PO125",
-      "vendor": 123,
-      "order_date": "09/05/2024",
-      "delivery_date": "16/05/2024",
-      "items": ["Item5", "Item6"],
-      "quantity": 8,
-      "status": "Pending",
-      "issue_date": "09/05/2024"
-    }
+            'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+            'po_number': 'PO002',
+            'order_date': '09/05/2024',  
+            'issue_date': '09/05/2024',  
+            'delivery_date': '09/05/2024', 
+            'items': {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },        # Added items
+            'quantity': 20,             
+            'status': 'Pending',       
+            'quality_rating': None,    
+            'acknowledgment_date': None 
+        }
 ### Response
 - ```json
   {
-    "message": "Purchase order has been placed successfully",
-    "data": {
-      "po_number": "PO125",
-      "vendor": 123,
-      "order_date": "2024-05-09T00:00:00Z",
-      "delivery_date": "2024-05-16T00:00:00Z",
-      "items": ["Item5", "Item6"],
-      "quantity": 8,
-      "status": "Pending",
-      "quality_rating": null,
-      "issue_date": "2024-05-09T00:00:00Z",
-      "acknowledgment_date": null
-    }
-  }
+            'vendor': vendor_id,  
+            'po_number': 'PO002',       
+            'order_date': '09/05/2024', 
+            'issue_date': '09/05/2024',  
+            'delivery_date': '09/05/2024', 
+            'items': {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },        # Added items
+            'quantity': 20,           
+            'status': 'Pending',       
+            'quality_rating': None,     
+            'acknowledgment_date': None 
+        }
 
 # PurchaseOrderRetrieveUpdateDestroyAPIView
 ## Description:
@@ -107,42 +122,47 @@
 ### Parameters:
 - po_id: ID of the purchase order to retrieve.
 ### Example Request:
-`GET api/purchase_order/123/get/`
+`GET api/purchase_order/PO002/get/`
 ### Response:
 - ```json
     {
-      "message": "Purchase order details retrieved successfully",
-      "data": {
-        "po_number": "PO123",
-        "vendor": 123,
-        "order_date": "2024-05-09T12:00:00Z",
-        "delivery_date": "2024-05-16T12:00:00Z",
-        "items": ["Item1", "Item2"],
-        "quantity": 10,
-        "status": "Pending",
-        "quality_rating": null,
-        "issue_date": "2024-05-09T12:00:00Z",
-        "acknowledgment_date": null
-      }
-    }
-  
+            'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+            'po_number': 'PO002',       
+            'order_date': '09/05/2024', 
+            'issue_date': '09/05/2024', 
+            'delivery_date': '09/05/2024',
+            'items': {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },       
+            'quantity': 20,             
+            'status': 'Pending',       
+            'quality_rating': None,     
+            'acknowledgment_date': None 
+        }
 # Update Purchase Order (PUT)
 ## Parameters:
 - po_id: ID of the purchase order to update.
 ### Example JSON Payload:
-`PUT api/purchase_order/123/update/`
+`PUT api/purchase_order/PO002/update/`
 - ```json
     {
-      "po_number": "PO123",
-      "vendor": 123,
-      "order_date": "09/05/2024",
-      "delivery_date": "16/05/2024",
-      "items": ["Item1", "Item2"],
-      "quantity": 10,
-      "status": "Pending",
-      "issue_date": "09/05/2024",
-      "acknowledgment_date": null
-    }
+            'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+            'po_number': 'PO002',       
+            'order_date': '09/05/2024',  
+            'issue_date': '09/05/2024', 
+            'delivery_date': '09/05/2024',
+            'items': {
+                "name": "Item 1",
+                "quantity": 1,
+                "price": 10.0
+            },       
+            'quantity': 40,            
+            'status': 'Pending',        
+            'quality_rating': None,     
+            'acknowledgment_date': None 
+        }
 ## Response:
 ### Success Response (200):
 - ```json
