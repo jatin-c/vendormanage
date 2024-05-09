@@ -76,3 +76,62 @@
     "detail": "Authentication credentials were not provided."
   }
 # Please, navigate to any of the three apps folder `purchase_order`, `vendor`, `authapp` to see the documentation and working of Each API endpoint.
+
+# Refer to this concise list of URLs
+
+## Authentication
+- **User Registration:**
+  - POST: `http://127.0.0.1:8000/api/authapp/user/register/`
+
+- **Get Token:**
+  - POST: `http://127.0.0.1:8000/api/authapp/token/`
+
+- **Refresh Token:**
+  - POST: `http://127.0.0.1:8000/api/authapp/token/refresh/`
+
+## Vendor
+- **List Vendors:**
+  - GET: `http://127.0.0.1:8000/api/vendor/`
+  
+- **Retrieve Vendor:**
+  - GET: `http://127.0.0.1:8000/api/vendor/<vendor_id>/`
+
+- **Create Vendor:**
+  - POST: `http://127.0.0.1:8000/api/vendor/create/`
+
+- **Update Vendor:**
+  - PUT: `http://127.0.0.1:8000/api/vendor/<vendor_id>/update/`
+
+- **Delete Vendor:**
+  - DELETE: `http://127.0.0.1:8000/api/vendor/<vendor_id>/delete/`
+
+- **Vendor Performance:**
+  - GET: `http://127.0.0.1:8000/api/vendor/<vendor_id>/performance/`
+
+- **Vendor Performance History:**
+  - GET: `http://127.0.0.1:8000/api/vendor/<vendor_id>/performancehistory/`
+
+## Purchase Order
+- **List All Purchase Orders:**
+  - GET: `http://127.0.0.1:8000/api/purchase_order/listall/`
+- **List All Purchase Orders filtered by Vendor:**
+  - GET: `http://127.0.0.1:8000/api/purchase_order/listall/?vendor=vendor_id`
+  
+- **Create Purchase Order:**
+  - POST: `http://127.0.0.1:8000/api/purchase_order/create/`
+
+- **Retrieve Purchase Order:**
+  - GET: `http://127.0.0.1:8000/api/purchase_order/<po_id>/get/`
+
+- **Update Purchase Order:**
+  - PUT: `http://127.0.0.1:8000/api/purchase_order/<po_id>/update/`
+
+- **Delete Purchase Order:**
+  - DELETE: `http://127.0.0.1:8000/api/purchase_order/<po_id>/delete/`
+
+- **Acknowledge Purchase Order:**
+  - PUT: `http://127.0.0.1:8000/api/purchase_order/<po_id>/acknowledge/`
+
+## Historical Performance
+- **List All Historical Performances:**
+  - GET: `http://127.0.0.1:8000/api/vendor/historicalperformance/listall/`
