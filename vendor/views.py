@@ -5,6 +5,7 @@ from .models import Vendor, HistoricalPerformance
 from .serializers import VendorSerializer, HistoricalPerformanceSerializer
 from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 
 class VendorCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -40,7 +41,7 @@ class VendorRetrieveAPIView(APIView):
 class VendorUpdateAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def put(self, request, vendor_id):
-        vendor = Vendor.objects.get(pk=vendor_id)
+        vendor = get_object_or_404(Vendor, pk=vendor_id)
         serializer = VendorSerializer(vendor, data=request.data, partial = True)
         if serializer.is_valid():
             serializer.save()
@@ -71,7 +72,7 @@ class VendorPerformance(APIView):
         # Retrieve performance metrics from the vendor instance
         performance_data = {
             "on_time_delivery_rate": vendor.on_time_delivery_rate,
-            "quality_rating_avg": vendor.quality_rating_average,
+            "quality_rating_average": vendor.quality_rating_average,
             "average_response_time": vendor.average_response_time,
             "fulfillment_rate": vendor.fulfillment_rate
         }

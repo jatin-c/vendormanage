@@ -4,10 +4,21 @@ from rest_framework import status
 from django.urls import reverse
 from vendor.models import Vendor
 from vendor.serializers import VendorSerializer
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import AccessToken
 
 class VendorCreateAPIViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
 
     def test_create_vendor(self):
         data = {
@@ -32,10 +43,18 @@ class VendorCreateAPIViewTestCase(TestCase):
         }
         response = self.client.post(reverse('vendor-create'), data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
+        
 class VendorListAPIViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
         Vendor.objects.create(name='Vendor 1', vendor_code='VENDOR001')
         Vendor.objects.create(name='Vendor 2', vendor_code='VENDOR002')
 
@@ -56,6 +75,14 @@ class VendorListAPIViewTestCase(TestCase):
 class VendorRetrieveAPIViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
         self.vendor = Vendor.objects.create(
             name='Test Vendor',
             contact_details='Contact Details',
@@ -86,6 +113,14 @@ class VendorRetrieveAPIViewTestCase(TestCase):
 class VendorUpdateAPIViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
         self.vendor = Vendor.objects.create(
             name='Test Vendor',
             contact_details='Contact Details',
@@ -139,6 +174,14 @@ class VendorUpdateAPIViewTestCase(TestCase):
 class VendorDeleteAPIViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
         self.vendor = Vendor.objects.create(name='Test Vendor')
 
     def test_delete_vendor(self):
@@ -153,6 +196,14 @@ class VendorDeleteAPIViewTestCase(TestCase):
 class VendorPerformanceTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        # Create a user
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+        # Generate JWT access token
+        access_token = AccessToken.for_user(self.user)
+
+        # Set the authentication token in the client
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(access_token))
         self.vendor = Vendor.objects.create(
             name='Test Vendor',
             on_time_delivery_rate=0.9,
@@ -165,7 +216,7 @@ class VendorPerformanceTestCase(TestCase):
         response = self.client.get(reverse('vendor_performance', kwargs={'vendor_id': self.vendor.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['on_time_delivery_rate'], 0.9)
-        self.assertEqual(response.data['quality_rating_avg'], 4.5)
+        self.assertEqual(response.data['quality_rating_average'], 4.5)
         self.assertEqual(response.data['average_response_time'], 12.5)
         self.assertEqual(response.data['fulfillment_rate'], 0.85)
 
