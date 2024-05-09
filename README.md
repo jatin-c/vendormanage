@@ -14,11 +14,7 @@
      `python manage.py makemigrations`
      `python manage.py migrate`
      `python manage.py runserver`
-## 7) To run the Test cases run the below command
-     `python manage.py test`
-## 8) to run the test cases for a specific app run the commands below
-     `python manage.py test purchase_order.tests`
-     `python manage.py test vendor.tests`
+
    
 # All of the endpoints are restricted and need authentication Token in order to use them. 
 
@@ -80,6 +76,11 @@
   {
     "detail": "Authentication credentials were not provided."
   }
+## To run the Test cases run the below command
+     `python manage.py test`
+## to run the test cases for a specific app run the commands below
+     `python manage.py test purchase_order.tests`
+     `python manage.py test vendor.tests`
 # Please, navigate to any of the three apps folder `purchase_order`, `vendor`, `authapp` to see the documentation and working of Each API endpoint.
 
 # Refer to this concise list of URLs
