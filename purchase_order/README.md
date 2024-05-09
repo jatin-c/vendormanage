@@ -163,6 +163,29 @@
 - ```json
   { "message": "Purchase order deleted successfully" }
 
+# AcknowledgePurchaseOrder
+## Description:
+- This API endpoint allows authenticated users to acknowledge a purchase order.
+
+## Endpoint:
+- URL: api/purchase_order/<po_id>/acknowledge/
+### Request Type: PUT
+### Authentication:
+- Requires authentication. Users must provide a valid token in the request headers.
+## Acknowledge Purchase Order (PUT)
+### Parameters:
+- po_id: ID of the purchase order to acknowledge.
+### Example Request:
+`PUT api/purchase_order/123/acknowledge/
+## Response:
+### Success Response (200):
+
+- ```json
+  { "message": "Purchase order acknowledged successfully" }
+### Error Response (404):
+- ```json
+  { "error": "Purchase order not found" }
+
 
   
 
