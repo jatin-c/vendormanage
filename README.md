@@ -14,9 +14,9 @@
      `python manage.py makemigrations`
      `python manage.py migrate`
      `python manage.py runserver`
-## 7) To run the Test cases run the below command
+## 7) To run the Test suite the below command
      `python manage.py test`
-## 8) to run the test cases for a specific app run the commands below
+## 8) to run the test suite a specific app run the commands below
      `python manage.py test purchase_order.tests`
      `python manage.py test vendor.tests`
      
