@@ -2,8 +2,8 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
-from models import Vendor
-from serializers import VendorSerializer
+from vendor.models import Vendor
+from vendor.serializers import VendorSerializer
 
 class VendorCreateAPIViewTestCase(TestCase):
     def setUp(self):
