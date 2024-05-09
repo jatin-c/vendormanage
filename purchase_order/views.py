@@ -7,8 +7,10 @@ from .serializers import PurchaseOrderSerializer
 from django.utils.dateparse import parse_date
 from datetime import datetime
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
 
 class PurchaseOrderListCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         vendor_id = request.query_params.get('vendor_id')  # Extract vendor_id from query parameters
         if vendor_id:
@@ -57,6 +59,7 @@ class PurchaseOrderListCreateAPIView(APIView):
 
 
 class PurchaseOrderRetrieveUpdateDestroyAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get_object(self, po_id):
         try:
             return PurchaseOrder.objects.get(pk=po_id)
@@ -107,6 +110,7 @@ class PurchaseOrderRetrieveUpdateDestroyAPIView(APIView):
 
 
 class AcknowledgePurchaseOrder(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, po_id):
         try:
             purchase_order = PurchaseOrder.objects.get(pk=po_id)

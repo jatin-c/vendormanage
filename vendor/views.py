@@ -4,8 +4,10 @@ from rest_framework.views import APIView
 from .models import Vendor, HistoricalPerformance
 from .serializers import VendorSerializer, HistoricalPerformanceSerializer
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
 
 class VendorCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = VendorSerializer(data=request.data)
         if serializer.is_valid():
@@ -15,6 +17,7 @@ class VendorCreateAPIView(APIView):
 
     
 class VendorListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         vendors = Vendor.objects.all()
         if not vendors:
@@ -24,6 +27,7 @@ class VendorListAPIView(APIView):
 
     
 class VendorRetrieveAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, vendor_id):
         try:
             vendor = Vendor.objects.get(pk=vendor_id)
@@ -34,6 +38,7 @@ class VendorRetrieveAPIView(APIView):
 
     
 class VendorUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, vendor_id):
         vendor = Vendor.objects.get(pk=vendor_id)
         serializer = VendorSerializer(vendor, data=request.data, partial = True)
@@ -44,6 +49,7 @@ class VendorUpdateAPIView(APIView):
     
 
 class VendorDeleteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request, vendor_id):
         try:
             vendor = Vendor.objects.get(pk=vendor_id)
@@ -55,6 +61,7 @@ class VendorDeleteAPIView(APIView):
 
     
 class VendorPerformance(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, vendor_id):
         try:
             vendor = Vendor.objects.get(pk=vendor_id)
@@ -72,6 +79,7 @@ class VendorPerformance(APIView):
         return Response(performance_data, status=status.HTTP_200_OK)
     
 class VendorPerformanceHistory(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, vendor_id):
         # Query historical performance data for the specified vendor
         performance_history = HistoricalPerformance.objects.filter(vendor_id=vendor_id)
@@ -86,6 +94,7 @@ class VendorPerformanceHistory(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class HistoricalPerformanceListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
         historical_performance_entries = HistoricalPerformance.objects.all()
         serializer = HistoricalPerformanceSerializer(historical_performance_entries, many=True)
