@@ -187,6 +187,117 @@
   { "error": "Purchase order not found" }
 
 
+# update_vendor_metrics Signal (on_time_delivery_rate)
+## Description:
+- This signal function is triggered after a PurchaseOrder instance is saved. It updates the performance metrics of the associated vendor, particularly the on-time delivery rate.
+
+## Functionality:
+- Calculate On-time Delivery Rate: Checks if the PurchaseOrder status is 'completed' and calculates the on-time delivery rate using the PerformanceMetrics class. 
+- Update Vendor Metrics: Retrieves the associated Vendor instance and updates its on-time delivery rate with the newly calculated value.
+- ```python
+  if not created:
+        # Calculate on-time delivery rate
+        if instance.status == 'completed':
+            performance_metrics = PerformanceMetrics(instance)
+            on_time_delivery_rate = performance_metrics.calculate_on_time_delivery_rate()
+            try:
+                # Retrieve Vendor instancee
+                vendor = Vendor.objects.get(pk=instance.vendor_id)
+            except Vendor.DoesNotExist:
+                # Handle the case where the vendor does not exist
+                print(f"Vendor with ID {instance.vendor_id} does not exist.")
+            else:
+                # Update Vendor model with the new on-time delvery rate
+                vendor.on_time_delivery_rate = on_time_delivery_rate
+                vendor.save()
+
+## Execution:
+- This signal function is executed after a PurchaseOrder instance is saved.
+- It checks if the order status is 'completed' and calculates the on-time delivery rate.
+- Then, it retrieves the associated vendor and updates its on-time delivery rate.
+
+# update_fulfillment_rate Signal
+## Description:
+- This signal function is triggered before a PurchaseOrder instance is saved. It updates the fulfillment rate of the associated vendor based on changes in the order status.
+
+## Functionality:
+- Retrieve Previous Instance: Retrieves the previous instance of the PurchaseOrder from the database.
+- ```python
+  previous_instance = PurchaseOrder.objects.get(pk=instance.pk)
+- Check Status Change: Compares the status of the current instance with the previous one to detect changes.
+- ```python
+  if instance.pk and instance.status != previous_instance.status:
+- Calculate Fulfillment Rate: If the status has changed, calculates the fulfillment rate using the PerformanceMetrics class.
+- ```python
+  performance_metrics = PerformanceMetrics(instance)
+  fulfillment_rate = performance_metrics.calculate_fulfillment_rate()
+- Update Vendor Metrics: Retrieves the associated Vendor instance and updates its fulfillment rate with the newly calculated value.
+- ```python
+  try:
+                # Retrieve Vendor instance
+                vendor = Vendor.objects.get(pk=instance.vendor_id)
+                vendor.fulfillment_rate = fulfillment_rate
+                vendor.save()
+            except Vendor.DoesNotExist:
+                print(f"Vendor with ID {instance.vendor_id} does not exist.")
+## Execution:
+- This signal function is executed before a PurchaseOrder instance is saved.
+- It retrieves the previous instance to compare status changes.
+- If the status has changed, it calculates the fulfillment rate and updates the associated vendor.
+
+# update_quality_rating_average Signal
+## Description:
+-This signal function is triggered after a PurchaseOrder instance is saved. It updates the quality rating average of the associated vendor based on the quality rating provided in the purchase order.
+
+## Functionality:
+- Check Quality Rating: Checks if a quality rating is provided for the purchase order.
+- ```python
+  if not created:  
+        if instance.quality_rating is not None:  # it Checks if a quality rating is provided
+- Calculate Quality Rating Average: If a quality rating is provided, calculates the quality rating average using the PerformanceMetrics class.
+- ```python
+  # Calculate quality rating average
+            performance_metrics = PerformanceMetrics(instance)
+            quality_rating_average = performance_metrics.calculate_quality_rating_average()
+- Update Vendor Metrics: Retrieves the associated Vendor instance and updates its quality rating average with the newly calculated value.
+- ```python
+   try:
+                vendor = Vendor.objects.get(pk=instance.vendor_id)
+                vendor.quality_rating_average = quality_rating_average
+                vendor.save()
+            except Vendor.DoesNotExist:
+                print(f"Vendor with ID {instance.vendor_id} does not exist.")
+
+# update_average_response_time Signal
+## Description:
+- This signal function is triggered before a PurchaseOrder instance is saved. It updates the average response time of the associated vendor based on changes in the acknowledgment date of the purchase order.
+
+## Functionality:
+- Retrieve Previous Instance: Retrieves the previous instance of the PurchaseOrder from the database.
+- ```python
+  # Retrieve the previous instance from the database
+        previous_instance = PurchaseOrder.objects.get(pk=instance.pk)
+- Check Acknowledgment Date Change: Compares the acknowledgment date of the current instance with the previous one to detect changes.
+- ```python
+  if instance.acknowledgment_date != previous_instance.acknowledgment_date:
+            
+- Calculate Average Response Time: If the acknowledgment date has changed, calculates the average response time using the PerformanceMetrics class.
+- ```python
+  # Calculate average response time
+            performance_metrics = PerformanceMetrics(instance)
+            average_response_time = performance_metrics.calculate_average_response_time()
+- Update Vendor Metrics: Retrieves the associated Vendor instance and updates its average response time with the newly calculated value.
+- ```python
+    try:
+                vendor = Vendor.objects.get(pk=instance.vendor_id)
+                vendor.average_response_time = average_response_time
+                vendor.save()
+            except Vendor.DoesNotExist:
+                print(f"Vendor with ID {instance.vendor_id} does not exist.")
+    except PurchaseOrder.DoesNotExist:
+
+
+
   
 
 
