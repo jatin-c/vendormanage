@@ -71,7 +71,8 @@
   }
 
 # Note :- Its necessary to obtain the token and paste it in the bearer section without it you won't be able to access any of the endpoint and will see this error.
-```json
- {
+- ```json
+  {
     "detail": "Authentication credentials were not provided."
-}
+  }
+# Please, navigate to any of the three apps folder `purchase_order`, `vendor`, `authapp` to see the documentation and working of Each API endpoint.
