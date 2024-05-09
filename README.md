@@ -14,7 +14,7 @@
      `python manage.py makemigrations`
      `python manage.py migrate`
      `python manage.py runserver`
-## 7) To run the Test suite the below command
+## 7) To run the Test suite the below command (Test suite commands do not run when the Django server is running. Stop the server with CTRL + C)
      `python manage.py test`
 ## 8) to run the test suite a specific app run the commands below
      `python manage.py test purchase_order.tests`
