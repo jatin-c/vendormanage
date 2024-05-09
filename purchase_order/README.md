@@ -296,6 +296,70 @@
                 print(f"Vendor with ID {instance.vendor_id} does not exist.")
     except PurchaseOrder.DoesNotExist:
 
+# Performance Metrics Documentation
+
+## Introduction
+This module calculates various performance metrics related to purchase orders for a given vendor.
+
+## Class: PerformanceMetrics
+
+### Constructor: `__init__(self, purchase_order: PurchaseOrder)`
+- **Parameters:** 
+  - `purchase_order`: An instance of the `PurchaseOrder` class representing the current purchase order.
+- **Description:**
+  - Initializes the `PerformanceMetrics` object with the given purchase order.
+
+### Method: `calculate_on_time_delivery_rate(self)`
+- **Description:**
+  - Calculates the on-time delivery rate for the vendor of the current purchase order.
+- **Returns:**
+  - The on-time delivery rate as a percentage (rounded to 2 decimal places).
+- **Logic:**
+  1. Fetches all completed purchase orders for the vendor.
+  2. Filters the completed orders delivered on or before the delivery date of the current purchase order.
+  3. Calculates the percentage of on-time deliveries among all completed orders.
+
+### Method: `calculate_quality_rating_average(self)`
+- **Description:**
+  - Calculates the average quality rating for the vendor of the current purchase order.
+- **Returns:**
+  - The average quality rating (rounded to 2 decimal places).
+- **Logic:**
+  1. Fetches all completed purchase orders for the vendor.
+  2. Calculates the sum of quality ratings for all completed orders.
+  3. Divides the total quality rating by the number of completed orders to obtain the average.
+
+### Method: `calculate_average_response_time(self)`
+- **Description:**
+  - Calculates the average response time for the vendor of the current purchase order.
+- **Returns:**
+  - The average response time in seconds (rounded to 2 decimal places).
+- **Logic:**
+  1. Fetches all purchase orders for the vendor.
+  2. Calculates the time difference between the issue date and acknowledgment date for each purchase order.
+  3. Calculates the total response time and divides it by the number of purchase orders to obtain the average.
+
+### Method: `calculate_fulfillment_rate(self)`
+- **Description:**
+  - Calculates the fulfillment rate for the vendor of the current purchase order.
+- **Returns:**
+  - The fulfillment rate as a percentage (rounded to 2 decimal places).
+- **Logic:**
+  1. Fetches all purchase orders for the vendor.
+  2. Counts the number of successfully fulfilled orders (status 'completed' without issues).
+  3. Calculates the fulfillment rate as the percentage of successful orders among all orders.
+
+### General Logic Explanation
+- The class `PerformanceMetrics` provides methods to calculate various performance metrics related to purchase orders.
+- Each method fetches relevant purchase orders for the vendor of the current purchase order and performs calculations based on specific criteria.
+- The logic is designed to handle scenarios like missing data points or division by zero, ensuring the robustness of the calculations.
+
+### Code Practices
+- This code follows industry-standard practices and adheres to SOLID principles.
+- Dependency injection is utilized in the `PerformanceMetrics` class constructor, allowing for modular and testable code.
+- The code maintains modularity and readability, contributing to its maintainability and extensibility.
+
+
 
 
   
