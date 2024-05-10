@@ -2,28 +2,28 @@
 
 ## Steps:- 
 ## 1) Download the Repo and extract the repo
-## 2) navigate to the vendormanage-master folder (It should have manage.py file in it "just to identify you are in the right folder)
-## 3) open terminal
-## 4) setup a virtual environment
+## 2) Navigate to the vendormanage-master folder (It should have manage.py file in it "just to identify you are in the right folder)
+## 3) Open the terminal in the same folder.
+## 4) Setup a virtual environment by running the commands given below in your terminal.
      `pip install virtualenv`
      `virtualenv YourEnviromentName`
      `YourEnvironmentName\scripts\activate` activate you environment
-## 5) once you have created and activated your environment.
-     run `pip install -r requirements.txt` it install all the necessary dependencies for running this project
-## 6) After, Installing run the the following command in sequence
+## 5) Once you have created and activated your environment run this command.
+     `pip install -r requirements.txt` it installs all of the necessary dependencies for running this project
+## 6) After Installing run the following commands in sequence
      `python manage.py makemigrations`
      `python manage.py migrate`
      `python manage.py runserver`
-## 7) To run the Test suite the below command (Test suite commands do not run when the Django server is running. Stop the server with CTRL + C)
+## 7) To run the Test suite use the command givin below (Test suite commands do not run when the Django server is running. Stop the server with CTRL + C)
      `python manage.py test`
-## 8) to run the test suite a specific app run the commands below
+## 8) To run the test suite for a specific app run the commands below
      `python manage.py test purchase_order.tests`
      `python manage.py test vendor.tests`
      
 # Please, navigate to these folders `[purchase_order, vendor]` to see the documentation and working of Each API endpoint.
 
    
-# All of the endpoints are restricted and need authentication Token in order to use them. 
+# All of the endpoints are restricted and requires an authentication Token to be accessed.
 
 ### Steps for registering yourself and obtaining access token.
 ## User Registration
