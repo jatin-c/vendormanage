@@ -24,9 +24,9 @@
 # Please, navigate to these folders `[purchase_order, vendor]` to see the documentation and working of Each API endpoint.
 
    
-# All of the endpoints are restricted and requires an authentication Token to be accessed.
+## `All of the endpoints are restricted and requires an authentication Token to be accessed.`
 
-### Steps for registering yourself and obtaining access token :-
+# Steps for registering yourself and obtaining access token :-
 ## User Registration
 
 - **Path:** `api/authapp/user/register/`
