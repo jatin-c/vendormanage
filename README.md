@@ -26,7 +26,7 @@
    
 # All of the endpoints are restricted and requires an authentication Token to be accessed.
 
-### Steps for registering yourself and obtaining access token.
+### Steps for registering yourself and obtaining access token :-
 ## User Registration
 
 - **Path:** `api/authapp/user/register/`
