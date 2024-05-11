@@ -69,6 +69,7 @@
 - issue_date: Issue date in "day/month/year" format (string, optional)
 # Example
 `POST api/purchase_order/create/`
+
  - ```json
    {
     'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
@@ -86,7 +87,9 @@
     'quality_rating': None,    
     'acknowledgment_date': None 
    }
+   
 ### Response
+
 - ```json
   {
   'vendor': vendor_id,  
@@ -125,6 +128,7 @@
 ### Example Request:
 `GET api/purchase_order/PO002/get/`
 ### Response:
+
 - ```json
   {
   'vendor': vendor_id,  
@@ -142,11 +146,13 @@
   'quality_rating': None,     
   'acknowledgment_date': None 
   }
+  
 # Update Purchase Order (PUT)
 ## Parameters:
 - po_id: ID of the purchase order to update.
 ### Example JSON Payload:
 `PUT api/purchase_order/PO002/update/`
+
 - ```json
   {
   'vendor': vendor_id, 
@@ -164,6 +170,7 @@
   'quality_rating': None,     
   'acknowledgment_date': None 
   }
+  
 ## Response:
 ### Success Response (200):
 - ```json
