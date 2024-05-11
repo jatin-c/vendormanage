@@ -71,38 +71,38 @@
 `POST api/purchase_order/create/`
  - ```json
    {
-      'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
-      'po_number': 'PO002',
-      'order_date': '09/05/2024',  
-      'issue_date': '09/05/2024',  
-      'delivery_date': '09/05/2024', 
-      'items': {
-          "name": "Item 1",
-          "quantity": 1,
-          "price": 10.0
-      },        # Added items
-      'quantity': 20,             
-      'status': 'Pending',       
-      'quality_rating': None,    
-      'acknowledgment_date': None 
+    'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+    'po_number': 'PO002',
+    'order_date': '09/05/2024',  
+    'issue_date': '09/05/2024',  
+    'delivery_date': '09/05/2024', 
+    'items': {
+        "name": "Item 1",
+        "quantity": 1,
+        "price": 10.0
+    },        # Added items
+    'quantity': 20,             
+    'status': 'Pending',       
+    'quality_rating': None,    
+    'acknowledgment_date': None 
    }
 ### Response
 - ```json
   {
-      'vendor': vendor_id,  
-      'po_number': 'PO002',       
-      'order_date': '09/05/2024', 
-      'issue_date': '09/05/2024',  
-      'delivery_date': '09/05/2024', 
-      'items': {
-          "name": "Item 1",
-          "quantity": 1,
-          "price": 10.0
-      },        # Added items
-      'quantity': 20,           
-      'status': 'Pending',       
-      'quality_rating': None,     
-      'acknowledgment_date': None 
+  'vendor': vendor_id,  
+  'po_number': 'PO002',       
+  'order_date': '09/05/2024', 
+  'issue_date': '09/05/2024',  
+  'delivery_date': '09/05/2024', 
+  'items': {
+      "name": "Item 1",
+      "quantity": 1,
+      "price": 10.0
+  },        # Added items
+  'quantity': 20,           
+  'status': 'Pending',       
+  'quality_rating': None,     
+  'acknowledgment_date': None 
   }
 
 # PurchaseOrderRetrieveUpdateDestroyAPIView
@@ -127,20 +127,20 @@
 ### Response:
 - ```json
   {
-      'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
-      'po_number': 'PO002',       
-      'order_date': '09/05/2024', 
-      'issue_date': '09/05/2024', 
-      'delivery_date': '09/05/2024',
-      'items': {
-          "name": "Item 1",
-          "quantity": 1,
-          "price": 10.0
-      },       
-      'quantity': 20,             
-      'status': 'Pending',       
-      'quality_rating': None,     
-      'acknowledgment_date': None 
+  'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+  'po_number': 'PO002',       
+  'order_date': '09/05/2024', 
+  'issue_date': '09/05/2024', 
+  'delivery_date': '09/05/2024',
+  'items': {
+      "name": "Item 1",
+      "quantity": 1,
+      "price": 10.0
+  },       
+  'quantity': 20,             
+  'status': 'Pending',       
+  'quality_rating': None,     
+  'acknowledgment_date': None 
   }
 # Update Purchase Order (PUT)
 ## Parameters:
@@ -149,20 +149,20 @@
 `PUT api/purchase_order/PO002/update/`
 - ```json
   {
-      'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
-      'po_number': 'PO002',       
-      'order_date': '09/05/2024',  
-      'issue_date': '09/05/2024', 
-      'delivery_date': '09/05/2024',
-      'items': {
-          "name": "Item 1",
-          "quantity": 1,
-          "price": 10.0
-      },       
-      'quantity': 40,            
-      'status': 'Pending',        
-      'quality_rating': None,     
-      'acknowledgment_date': None 
+  'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+  'po_number': 'PO002',       
+  'order_date': '09/05/2024',  
+  'issue_date': '09/05/2024', 
+  'delivery_date': '09/05/2024',
+  'items': {
+      "name": "Item 1",
+      "quantity": 1,
+      "price": 10.0
+  },       
+  'quantity': 40,            
+  'status': 'Pending',        
+  'quality_rating': None,     
+  'acknowledgment_date': None 
   }
 ## Response:
 ### Success Response (200):
