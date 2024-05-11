@@ -80,7 +80,7 @@
         "name": "Item 1",
         "quantity": 1,
         "price": 10.0
-    },        # Added items
+    },        
     'quantity': 20,             
     'status': 'Pending',       
     'quality_rating': None,    
@@ -98,7 +98,7 @@
       "name": "Item 1",
       "quantity": 1,
       "price": 10.0
-  },        # Added items
+  },       
   'quantity': 20,           
   'status': 'Pending',       
   'quality_rating': None,     
@@ -127,7 +127,7 @@
 ### Response:
 - ```json
   {
-  'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+  'vendor': vendor_id,  
   'po_number': 'PO002',       
   'order_date': '09/05/2024', 
   'issue_date': '09/05/2024', 
@@ -149,7 +149,7 @@
 `PUT api/purchase_order/PO002/update/`
 - ```json
   {
-  'vendor': vendor_id,  # Assuming self.vendor is an instance of Vendor
+  'vendor': vendor_id, 
   'po_number': 'PO002',       
   'order_date': '09/05/2024',  
   'issue_date': '09/05/2024', 
