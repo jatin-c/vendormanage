@@ -1,4 +1,4 @@
-# Python version `3.12.3` is used in this project.
+# Python version `3.12.3` is used in this project. 
 # Please see the instructions below to setup the project in your computer.
 
 ## Steps:- 
@@ -26,7 +26,7 @@
    
 ## `All of the endpoints are restricted and requires an authentication Token to be accessed.`
 
-# Steps for registering yourself and obtaining access token :-
+# Steps for registering yourself and obtaining access token (Use Postman to interact with APIs. download Postman here [Download Postman](https://www.postman.com/downloads/):-
 ## User Registration
 
 - **Path:** `api/authapp/user/register/`
