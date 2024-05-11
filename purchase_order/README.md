@@ -11,7 +11,8 @@
 ### vendor_id (optional): ID of the vendor to filter purchase orders by.
 
 - ```json
-  {
+  [
+   {
   "vendor_name": "Vendor Name",
   "purchase_orders": [
     {
@@ -84,7 +85,7 @@
       'status': 'Pending',       
       'quality_rating': None,    
       'acknowledgment_date': None 
-  }
+   }
 ### Response
 - ```json
   {
